@@ -34,7 +34,7 @@ where
 pub fn main() {
 
     let mut dictionary = Dictionary::new();
-    let mut current_key = 0;
+    let mut current_key = 1;
 
     if let Ok(file) = File::open("input.txt") {
         let reader = io::BufReader::new(file);
