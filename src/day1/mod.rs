@@ -1,4 +1,4 @@
-use std::fs::File;
+use std::fs::{File, DirBuilder};
 use std::io::{self, BufRead};
 use std::collections::HashMap;
 
@@ -17,8 +17,6 @@ where
         }
     }
 
-
-
     fn insert_add(&mut self, key: K, value: i32) {
         if let Some(current_value) = self.data.get_mut(&key) {
             *current_value += value;
@@ -27,7 +25,9 @@ where
         }
     }
 
-    
+    fn remove(&mut self, key: K) {
+        self.data.remove(&key);
+    }
 
 }
 
@@ -36,15 +36,15 @@ pub fn main() {
     let mut dictionary = Dictionary::new();
     let mut current_key = 1;
 
-    if let Ok(file) = File::open("input.txt") {
+    if let Ok(file) = File::open("./input.txt") {
         let reader = io::BufReader::new(file);
-
         for line in reader.lines() {
             if let Ok(line) = line {
                 if line.trim().is_empty() {
                     current_key += 1;
                 } else {
                     if let Ok(number) = line.parse::<i32>() {
+
                         dictionary.insert_add(current_key,number );
                     }
                 }
@@ -54,9 +54,26 @@ pub fn main() {
         println!("Failed to open the file.");
     }
 
-    if let Some((max_key, _)) = dictionary.data.iter().max_by_key(|(_, v)| *v){
-        println!("{}", max_key);
-    } else {
-        println!("No max found");
-    }
+    let mut total = 0;
+
+
+    let max_key = dictionary.data.iter().map(|(_,v)|*v).max().unwrap();
+    let key = dictionary.data.iter().max_by_key(|&(_, v)| *v).unwrap();
+    dictionary.remove(*key.0);
+
+    total += max_key;
+
+    let max_key = dictionary.data.iter().map(|(_,v)|*v).max().unwrap();
+    let key = dictionary.data.iter().max_by_key(|&(_, v)| *v).unwrap();
+    dictionary.remove(*key.0);
+    total += max_key;
+
+    let max_key = dictionary.data.iter().map(|(_,v)|*v).max().unwrap();
+    let key = dictionary.data.iter().max_by_key(|&(_, v)| *v).unwrap();
+    dictionary.remove(*key.0);
+    total += max_key;
+
+    println!("{}", total);
+    
+
 }
