@@ -1,7 +1,7 @@
 #![allow(non_snake_case)]
-mod day2;
+mod day3;
 
 fn main() {
- day2::sol2::main()
+ day3::main()
 }
  
