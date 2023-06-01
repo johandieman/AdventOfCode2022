@@ -3,11 +3,7 @@ use std::{collections::HashSet, io};
 use std::fs::{File};
 use std::io::{BufRead};
 
-
-
-
-
-
+pub mod sol2;
 #[derive(PartialEq, Eq, Hash,Debug)]
 struct HashTableS {
     key:char,
